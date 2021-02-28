@@ -1,0 +1,84 @@
+{
+    "schemes": [
+        "http",
+        "https"
+    ],
+    "swagger": "2.0",
+    "info": {
+        "description": "Морской бой",
+        "title": "Sea battle rest API",
+        "contact": {
+            "name": "SeaBattle",
+            "url": "https://github.com/vasabi/sea-battle",
+            "email": "vasabijaj@gmail.com"
+        },
+        "license": {
+            "name": "Apache 2.0",
+            "url": "http://www.apache.org/licenses/LICENSE-2.0.html"
+        },
+        "version": "1.0"
+    },
+    "paths": {
+        "/v1/rest/battle/create-matrix": {
+            "post": {
+                "description": "Создать поле для игры в морской бой.",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "battle"
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/swagger.WithError"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/swagger.WithError"
+                        }
+                    }
+                }
+            }
+        }
+    },
+    "definitions": {
+        "swagger.WithError": {
+            "type": "object",
+            "properties": {
+                "errors": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/v1.HTTPError"
+                    }
+                },
+                "result": {
+                    "type": "object"
+                },
+                "success": {
+                    "type": "boolean",
+                    "example": false
+                }
+            }
+        },
+        "v1.HTTPError": {
+            "type": "object",
+            "properties": {
+                "code": {
+                    "type": "integer",
+                    "example": 500
+                },
+                "message": {
+                    "type": "string",
+                    "example": "Cannot unmarshal json"
+                }
+            }
+        }
+    }
+}

@@ -1,0 +1,56 @@
+definitions:
+  swagger.WithError:
+    properties:
+      errors:
+        items:
+          $ref: '#/definitions/v1.HTTPError'
+        type: array
+      result:
+        type: object
+      success:
+        example: false
+        type: boolean
+    type: object
+  v1.HTTPError:
+    properties:
+      code:
+        example: 500
+        type: integer
+      message:
+        example: Cannot unmarshal json
+        type: string
+    type: object
+info:
+  contact:
+    email: vasabijaj@gmail.com
+    name: SeaBattle
+    url: https://github.com/vasabi/sea-battle
+  description: Морской бой
+  license:
+    name: Apache 2.0
+    url: http://www.apache.org/licenses/LICENSE-2.0.html
+  title: Sea battle rest API
+  version: "1.0"
+paths:
+  /v1/rest/battle/create-matrix:
+    post:
+      consumes:
+      - application/json
+      description: Создать поле для игры в морской бой.
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/swagger.WithError'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/swagger.WithError'
+      tags:
+      - battle
+schemes:
+- http
+- https
+swagger: "2.0"
