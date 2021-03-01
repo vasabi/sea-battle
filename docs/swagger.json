@@ -1,0 +1,241 @@
+{
+    "schemes": [
+        "http",
+        "https"
+    ],
+    "swagger": "2.0",
+    "info": {
+        "description": "Морской бой",
+        "title": "Sea battle rest API",
+        "contact": {
+            "name": "SeaBattle",
+            "url": "https://github.com/vasabi/sea-battle",
+            "email": "vasabijaj@gmail.com"
+        },
+        "license": {
+            "name": "Apache 2.0",
+            "url": "http://www.apache.org/licenses/LICENSE-2.0.html"
+        },
+        "version": "1.0"
+    },
+    "paths": {
+        "/rest/v1/battle/clear": {
+            "post": {
+                "description": "Очистить поле для игры в морской бой.",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "battle"
+                ],
+                "responses": {
+                    "200": {
+                        "description": "message",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                }
+            }
+        },
+        "/rest/v1/battle/create-matrix": {
+            "post": {
+                "description": "Создать поле для игры в морской бой.",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "battle"
+                ],
+                "parameters": [
+                    {
+                        "description": "JSON Body with parameters",
+                        "name": "parameters",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/v1.GameFieldReq"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "message",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    "400": {
+                        "description": "error",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                }
+            }
+        },
+        "/rest/v1/battle/ship": {
+            "post": {
+                "description": "Разместить корабли на игровом поле.",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "battle"
+                ],
+                "parameters": [
+                    {
+                        "description": "JSON Body with parameters",
+                        "name": "parameters",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/v1.CreateFleetReq"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "message",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    "400": {
+                        "description": "error",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                }
+            }
+        },
+        "/rest/v1/battle/shot": {
+            "post": {
+                "description": "Произвести выстрел.",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "battle"
+                ],
+                "parameters": [
+                    {
+                        "description": "JSON Body with parameters",
+                        "name": "parameters",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/v1.ShotReq"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/v1.ShotResultResp"
+                        }
+                    },
+                    "400": {
+                        "description": "error",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                }
+            }
+        },
+        "/rest/v1/battle/state": {
+            "get": {
+                "description": "Получить статистику по итогу игры.",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "battle"
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/v1.GameState"
+                        }
+                    }
+                }
+            }
+        }
+    },
+    "definitions": {
+        "v1.CreateFleetReq": {
+            "type": "object",
+            "properties": {
+                "Coordinates": {
+                    "type": "string"
+                }
+            }
+        },
+        "v1.GameFieldReq": {
+            "type": "object",
+            "properties": {
+                "range": {
+                    "type": "integer"
+                }
+            }
+        },
+        "v1.GameState": {
+            "type": "object",
+            "properties": {
+                "destroyed": {
+                    "type": "integer"
+                },
+                "knocked": {
+                    "type": "integer"
+                },
+                "ship_count": {
+                    "type": "integer"
+                },
+                "shot_count": {
+                    "type": "integer"
+                }
+            }
+        },
+        "v1.ShotReq": {
+            "type": "object",
+            "properties": {
+                "сoord": {
+                    "type": "string"
+                }
+            }
+        },
+        "v1.ShotResultResp": {
+            "type": "object",
+            "properties": {
+                "destroy": {
+                    "type": "boolean"
+                },
+                "end": {
+                    "type": "boolean"
+                },
+                "knock": {
+                    "type": "boolean"
+                }
+            }
+        }
+    }
+}
