@@ -37,9 +37,9 @@ func GetHTTPPort() string {
 	return getFromEnvOrDefault("HTTP_PORT", "8080")
 }
 
-// GetSwaggerInfoHost returns the SWAGGER_INFO_HOST environment variable. Default 127.0.0.1.
+// GetSwaggerInfoHost returns the SWAGGER_INFO_HOST environment variable. Default localhost:8080.
 func GetSwaggerInfoHost() string {
-	return getFromEnvOrDefault("SWAGGER_INFO_HOST", "127.0.0.1")
+	return getFromEnvOrDefault("SWAGGER_INFO_HOST", "localhost:8080")
 }
 
 func getFromEnvOrDefault(env string, defaultVal string) string {

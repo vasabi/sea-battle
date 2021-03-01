@@ -1,24 +1,38 @@
 definitions:
-  swagger.WithError:
+  v1.CreateFleetReq:
     properties:
-      errors:
-        items:
-          $ref: '#/definitions/v1.HTTPError'
-        type: array
-      result:
-        type: object
-      success:
-        example: false
-        type: boolean
-    type: object
-  v1.HTTPError:
-    properties:
-      code:
-        example: 500
-        type: integer
-      message:
-        example: Cannot unmarshal json
+      Coordinates:
         type: string
+    type: object
+  v1.GameFieldReq:
+    properties:
+      range:
+        type: integer
+    type: object
+  v1.GameState:
+    properties:
+      destroyed:
+        type: integer
+      knocked:
+        type: integer
+      ship_count:
+        type: integer
+      shot_count:
+        type: integer
+    type: object
+  v1.ShotReq:
+    properties:
+      сoord:
+        type: string
+    type: object
+  v1.ShotResultResp:
+    properties:
+      destroy:
+        type: boolean
+      end:
+        type: boolean
+      knock:
+        type: boolean
     type: object
 info:
   contact:
@@ -32,22 +46,107 @@ info:
   title: Sea battle rest API
   version: "1.0"
 paths:
-  /v1/rest/battle/create-matrix:
+  /rest/v1/battle/clear:
+    post:
+      consumes:
+      - application/json
+      description: Очистить поле для игры в морской бой.
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: message
+          schema:
+            type: string
+      tags:
+      - battle
+  /rest/v1/battle/create-matrix:
     post:
       consumes:
       - application/json
       description: Создать поле для игры в морской бой.
+      parameters:
+      - description: JSON Body with parameters
+        in: body
+        name: parameters
+        required: true
+        schema:
+          $ref: '#/definitions/v1.GameFieldReq'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: message
+          schema:
+            type: string
+        "400":
+          description: error
+          schema:
+            type: string
+      tags:
+      - battle
+  /rest/v1/battle/ship:
+    post:
+      consumes:
+      - application/json
+      description: Разместить корабли на игровом поле.
+      parameters:
+      - description: JSON Body with parameters
+        in: body
+        name: parameters
+        required: true
+        schema:
+          $ref: '#/definitions/v1.CreateFleetReq'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: message
+          schema:
+            type: string
+        "400":
+          description: error
+          schema:
+            type: string
+      tags:
+      - battle
+  /rest/v1/battle/shot:
+    post:
+      consumes:
+      - application/json
+      description: Произвести выстрел.
+      parameters:
+      - description: JSON Body with parameters
+        in: body
+        name: parameters
+        required: true
+        schema:
+          $ref: '#/definitions/v1.ShotReq'
       produces:
       - application/json
       responses:
         "200":
           description: OK
           schema:
-            $ref: '#/definitions/swagger.WithError'
-        "500":
-          description: Internal Server Error
+            $ref: '#/definitions/v1.ShotResultResp'
+        "400":
+          description: error
           schema:
-            $ref: '#/definitions/swagger.WithError'
+            type: string
+      tags:
+      - battle
+  /rest/v1/battle/state:
+    get:
+      consumes:
+      - application/json
+      description: Получить статистику по итогу игры.
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/v1.GameState'
       tags:
       - battle
 schemes:
