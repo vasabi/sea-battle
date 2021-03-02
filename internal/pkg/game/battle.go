@@ -59,14 +59,14 @@ leftTop:
 		}
 	}
 
-rightTop:
+rightBottom:
 	for i := x + 1; ; i++ {
 		if i >= len(gameField) || gameField[i][y] == Empty || gameField[i][y] == Miss {
 			xTail = i - 1
 			for j := y; ; j++ {
 				if j >= len(gameField) || gameField[x][j] == Empty || gameField[x][j] == Miss {
 					yTail = j - 1
-					break rightTop
+					break rightBottom
 				}
 			}
 		}
